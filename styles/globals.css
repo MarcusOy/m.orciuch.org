@@ -1,0 +1,57 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+* body {
+    font-family: Gotham, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.smart-shadow {
+    position: relative;
+}
+
+.smart-shadow::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: inherit;
+    background-position: center center;
+    filter: drop-shadow(10px 0px 10px rgba(0, 0, 0, 0.5)) blur(20px);
+    z-index: -1;
+}
+
+/* Little hover animation helper */
+.hov-scale {
+    transform: scale(1);
+    transition-property: transform;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.hov-scale:hover {
+    transform: scale(0.8);
+}
+.hov-scale-min {
+    transform: scale(1);
+    transition-property: transform;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.hov-scale-min:hover {
+    transform: scale(0.9);
+}
