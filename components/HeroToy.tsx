@@ -1,60 +1,50 @@
 import { Box } from '@chakra-ui/layout'
-import { Canvas, useLoader, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { Plane, Raycaster, Vector2, Vector3 } from 'three'
+
+function useLerpedMouse() {
+    const mouse = useThree((state) => state.mouse)
+    const lerped = useRef(mouse.clone())
+    const previous = new Vector2()
+    useFrame((state) => {
+        previous.copy(lerped.current)
+        lerped.current.lerp(mouse, 0.05)
+        // Regress system when the mouse is moved
+        if (!previous.equals(lerped.current)) state.performance.regress()
+    })
+    return lerped
+}
 
 const HeroToyRender = () => {
     const gltf = useLoader(GLTFLoader, '/3d/toy.glb')
-    let [rotation, setRotation] = useState([0, 0, 0])
+    const primitive = useRef()
 
-    // Track mouse every tick
-    const mouseMove = (e: MouseEvent) => {
-        // Get dimensions of window
-        let h = window.visualViewport.height
-        let w = window.visualViewport.width
-        let hm = h / 2
-        let wm = w / 2
-
-        // Get absolute mouse position
-        let x = e.pageX
-        let y = e.pageY
-
-        // Normalize x and y
-        let xn = (x - wm) / wm
-        let yn = (y - hm) / hm
-
-        // Set maximum rotations
-        let xMax = 0.5
-        let yMax = 0.5
-
-        // Set new rotation
-        setRotation([yn * yMax, xn * xMax, 0])
-    }
-
-    // Start mouse tracking
-    useEffect(() => {
-        document.addEventListener('mousemove', mouseMove)
-    }, [])
+    // Sets rotation based on mouse location
+    const mouse = useLerpedMouse()
+    useFrame((_) => {
+        let p = primitive.current as any
+        p.rotation.y = (mouse.current.x * Math.PI) / 10
+        p.rotation.x = (mouse.current.y * Math.PI) / 200
+    })
 
     return gltf ? (
         <primitive
+            ref={primitive}
             object={gltf.scene}
-            position={[0, -4, 0]}
-            rotation={rotation}
+            position={[0, -3.7, 0]}
             dispose={null}
         />
     ) : null
-
-    /* <mesh rotation={rotation}>
-        <boxGeometry />
-        <meshStandardMaterial />
-    </mesh> */
 }
 
 const HeroToy = () => {
     return (
         <Box position="relative" zIndex="10" h="100%" w="100%">
-            <Canvas>
+            <Canvas
+            // frameloop="demand"
+            >
                 <Suspense fallback={null}>
                     <ambientLight intensity={0.1} />
                     <HeroToyRender />
