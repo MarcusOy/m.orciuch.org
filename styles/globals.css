@@ -16,6 +16,7 @@ a {
 
 * {
     box-sizing: border-box;
+    /* https://stackoverflow.com/questions/18271460/fixed-positioning-z-index-issue-in-mobile-safari */
     -webkit-transform: translate3d(0, 0, 0);
 }
 

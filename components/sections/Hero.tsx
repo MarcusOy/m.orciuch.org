@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import TextLoop from 'react-text-loop'
 import { Box, Heading, Stack, Text } from '@chakra-ui/layout'
 import {
@@ -9,6 +9,12 @@ import {
     FaLinkedin,
 } from 'react-icons/fa'
 import { HStack } from '@chakra-ui/react'
+
+// Makes sure that HeroToy is not SSR-ed
+import dynamic from 'next/dynamic'
+const HeroToy = dynamic(() => import('../HeroToy'), {
+    ssr: false,
+})
 
 const smIcons = [FaGithub, FaLinkedin, FaInstagram, FaYoutube, FaDribbble]
 const smLinks = [
@@ -89,6 +95,8 @@ const Hero = () => {
                     </TextLoop>
                 </Heading>
             </Box>
+            {/* 3D Model */}
+            <HeroToy />
         </Stack>
     )
 }
