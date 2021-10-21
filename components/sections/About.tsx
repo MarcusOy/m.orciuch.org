@@ -121,6 +121,7 @@ const About = () => {
             zIndex={1}
         >
             <HStack
+                mt={10}
                 flexDir={['column', 'column', 'row', 'row']}
                 maxW="2xl"
                 padding={[5, 5, 0, 0]}
