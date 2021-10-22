@@ -7,7 +7,7 @@ import {
     Wrap,
     WrapItem,
 } from '@chakra-ui/layout'
-import { Button, Image as Img } from '@chakra-ui/react'
+import { Button, Image as Img, useColorModeValue } from '@chakra-ui/react'
 import { ThemeTypings } from '@chakra-ui/styled-system'
 import { Tag } from '@chakra-ui/tag'
 import Image from 'next/image'
@@ -110,13 +110,15 @@ const About = () => {
     let sDate = new Date('2/1/2018')
     let yoe = new Date().getFullYear() - sDate.getFullYear()
 
+    const bg = useColorModeValue('white', '#1A202C')
+
     return (
         <Stack
             id="About"
             // px={[2, 10, 24, 48]}a
-            boxShadow="0px -50px 50px 35px white"
-            height="75vh"
-            background="white"
+            boxShadow={`0px -50px 50px 35px ${bg}`}
+            minHeight="50vh"
+            background={bg}
             alignItems="center"
             zIndex={1}
         >
@@ -153,7 +155,16 @@ const About = () => {
                         maxW="32"
                         maxH="32"
                     /> */}
-                    <Button width="100%" variant="outline">
+                    <Button
+                        onClick={() =>
+                            window &&
+                            window
+                                .open('/Orciuch_Marcus_Resume.pdf', '_blank')!
+                                .focus()
+                        }
+                        width="100%"
+                        variant="outline"
+                    >
                         Resume
                     </Button>
                 </Stack>

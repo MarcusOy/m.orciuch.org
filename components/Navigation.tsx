@@ -1,4 +1,9 @@
-import { ExternalLinkIcon, HamburgerIcon } from '@chakra-ui/icons'
+import {
+    ExternalLinkIcon,
+    HamburgerIcon,
+    MoonIcon,
+    SunIcon,
+} from '@chakra-ui/icons'
 import {
     Box,
     Button,
@@ -12,11 +17,15 @@ import {
     HStack,
     IconButton,
     Link,
+    useColorMode,
     useDisclosure,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React from 'react'
+import ContactButton from './ContactButton'
 
 const Navigation = () => {
+    const { colorMode, toggleColorMode } = useColorMode()
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef(null)
 
@@ -29,20 +38,12 @@ const Navigation = () => {
                 Blog
                 <ExternalLinkIcon mx="2px" />
             </Link>
-            <Button
-                className="smart-shadow"
-                boxShadow="0px 16px 24px -2px rgba(33, 150, 242, 0.4)"
-                onClick={() => (window.location.hash = 'Contact')}
-                colorScheme="blue"
-                variant="solid"
-            >
-                Contact
-            </Button>
+            <ContactButton />
         </>
     )
 
     return (
-        <HStack fontWeight="400" as="nav" p={5}>
+        <HStack fontWeight="400" as="nav" zIndex={100} p={5}>
             <Heading fontWeight="800" size="md">
                 Marcus Orciuch
             </Heading>
@@ -57,6 +58,11 @@ const Navigation = () => {
             <HStack display={['none', 'none', 'block']} spacing="5">
                 {links}
             </HStack>
+            <IconButton
+                onClick={toggleColorMode}
+                aria-label="Toggle color mode"
+                icon={colorMode == 'light' ? <MoonIcon /> : <SunIcon />}
+            />
             <Drawer
                 isOpen={isOpen}
                 placement="bottom"

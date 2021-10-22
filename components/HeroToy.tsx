@@ -1,10 +1,11 @@
 import { Box } from '@chakra-ui/layout'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import React, { Suspense, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { CanvasTexture, RepeatWrapping, UVMapping, Vector2 } from 'three'
 import { RectAreaLightUniformsLib } from 'three-stdlib'
 import { EffectComposer } from '@react-three/postprocessing'
+import { useColorModeValue } from '@chakra-ui/react'
 
 RectAreaLightUniformsLib.init()
 Vector2.prototype.equals = function (v, epsilon = 0.001) {
@@ -29,14 +30,28 @@ const Toy = () => {
     const primitive = useRef()
 
     // Sets rotation based on mouse location
+    // (or device orientation if mobile)
     const mouse = useLerpedMouse()
+    const [accel, setAccel] = useState([0, 0, 0])
     useFrame((_, d) => {
         let p = primitive.current as any
         // Rotate based on mouse along x and y
-        p.rotation.y = (mouse.current.x * Math.PI) / 7 - 0.5
-        p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
+        if (accel[0] == 0 && accel[1] == 0 && accel[2] == 0) {
+            p.rotation.y = (mouse.current.x * Math.PI) / 7 - 0.5
+            p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
+        } else {
+            p.rotation.y = (accel[0] * Math.PI) / 7 - 0.5
+            p.rotation.x = (accel[1] * Math.PI) / 50 + 0.2
+        }
         // Auto rotate along z
         p.rotation.z += 0.1 * d
+    })
+
+    // Get device orientation (mobile rotations)
+    useEffect(() => {
+        window.addEventListener('deviceorientation', (e) => {
+            setAccel([e.alpha ?? 0, e.beta ?? 0, e.gamma ?? 0])
+        })
     })
 
     return gltf ? (
@@ -59,8 +74,14 @@ const Lights = () => {
         l.rotation.x = (mouse.current.x * Math.PI) / 6
         l.rotation.y = Math.PI * 0.25 - (mouse.current.y * Math.PI) / 6
     })
+
+    const colorDiff = useColorModeValue(2, 0)
+    console.log(colorDiff)
+
     return (
         <>
+            <ambientLight intensity={0.05} />
+
             <directionalLight
                 intensity={1}
                 position={[2, 2, 0]}
@@ -68,7 +89,7 @@ const Lights = () => {
                 // distance={5}
             />
             <spotLight
-                intensity={0}
+                intensity={2}
                 position={[-5, 10, 2]}
                 angle={0.2}
                 penumbra={1}
@@ -77,14 +98,14 @@ const Lights = () => {
             />
             <group ref={lights}>
                 <rectAreaLight
-                    intensity={2}
+                    intensity={colorDiff}
                     position={[4.5, 0, -3]}
                     width={10}
                     height={10}
                     onUpdate={(self) => self.lookAt(0, 0, 0)}
                 />
                 <rectAreaLight
-                    intensity={2}
+                    intensity={colorDiff}
                     position={[-10, 2, -10]}
                     width={15}
                     height={15}
@@ -95,34 +116,34 @@ const Lights = () => {
     )
 }
 
-function Effects() {
-    const ref = useRef()
-    // useFrame((state) => {
-    //     // Disable SSAO on regress
-    //     ;(ref.current as any).blendMode.setBlendFunction(
-    //         state.performance.current < 1
-    //             ? BlendFunction.SKIP
-    //             : BlendFunction.MULTIPLY
-    //     )
-    // })
-    return (
-        <EffectComposer multisampling={8}>
-            {/* <DepthOfField focusDistance={15} blur={0.01} /> */}
-            {/* <SSAO
-                ref={ref}
-                // intensity={15}
-                radius={10}
-                luminanceInfluence={0}
-                bias={0.035}
-            /> */}
-            {/* <Bloom
-                kernelSize={KernelSize.LARGE}
-                luminanceThreshold={0.55}
-                luminanceSmoothing={0.2}
-            /> */}
-        </EffectComposer>
-    )
-}
+// function Effects() {
+//     const ref = useRef()
+//     // useFrame((state) => {
+//     //     // Disable SSAO on regress
+//     //     ;(ref.current as any).blendMode.setBlendFunction(
+//     //         state.performance.current < 1
+//     //             ? BlendFunction.SKIP
+//     //             : BlendFunction.MULTIPLY
+//     //     )
+//     // })
+//     return (
+//         <EffectComposer multisampling={8}>
+//             {/* <DepthOfField focusDistance={15} blur={0.01} /> */}
+//             {/* <SSAO
+//                 ref={ref}
+//                 // intensity={15}
+//                 radius={10}
+//                 luminanceInfluence={0}
+//                 bias={0.035}
+//             /> */}
+//             {/* <Bloom
+//                 kernelSize={KernelSize.LARGE}
+//                 luminanceThreshold={0.55}
+//                 luminanceSmoothing={0.2}
+//             /> */}
+//         </EffectComposer>
+//     )
+// }
 
 const HeroToy = () => {
     return (
@@ -135,7 +156,7 @@ const HeroToy = () => {
                     // rotation: [1, 0, 0],
                 }}
             >
-                <Effects />
+                {/* <Effects /> */}
                 <Lights />
                 <Suspense fallback={null}>
                     {/* <ambientLight intensity={0.1} />

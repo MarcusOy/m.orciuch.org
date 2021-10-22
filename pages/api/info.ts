@@ -1,0 +1,65 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
+    const { body, method } = req
+
+    // Extract the email and captcha code from the request body
+    const { type, captcha } = body
+
+    if (method === 'POST') {
+        // If email or captcha are missing return an error
+        if (!type || !captcha) {
+            return res.status(422).json({
+                message:
+                    'Unproccesable request, please provide the required fields',
+            })
+        }
+
+        try {
+            // Ping the google recaptcha verify API to verify the captcha code you received
+            const response = await fetch(
+                `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captcha}`,
+                {
+                    headers: {
+                        'Content-Type':
+                            'application/x-www-form-urlencoded; charset=utf-8',
+                    },
+                    method: 'POST',
+                }
+            )
+            const captchaValidation = await response.json()
+
+            if (captchaValidation.success) {
+                let info
+                switch (type) {
+                    case 'email':
+                        info = 'marcus@oricuch.org'
+                        break
+                    case 'phone':
+                        info = '(219) 671-2649'
+                        break
+                    default:
+                        info = 'Nothing here :/'
+                }
+
+                // Return 200 if everything is successful
+                return res.status(200).send(info)
+            }
+
+            return res.status(422).json({
+                message: 'Unproccesable request, Invalid captcha code',
+            })
+        } catch (error) {
+            console.log(error)
+            return res.status(422).json({ message: 'Something went wrong' })
+        }
+    }
+    // Return 404 if someone pings the API with a method other than
+    // POST
+    return res.status(404).send('Invalid REST verb.')
+    // res.status(200).send('marcus@orciuch.org')
+}
