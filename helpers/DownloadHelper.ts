@@ -1,4 +1,7 @@
+// @ts-nocheck
+
 export async function downloadFile(fetchResult: Response) {
+    if (fetchResult == null) return
     var filename = fetchResult.headers
         .get('content-disposition')
         .split('filename=')[1]
