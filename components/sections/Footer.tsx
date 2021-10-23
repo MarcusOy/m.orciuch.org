@@ -7,13 +7,16 @@ const Footer = () => {
 
     return (
         <Stack
-            pt={10}
-            minHeight="25vh"
+            py={5}
             bg="#2196F2"
             color="white"
             px={[5, 5, 36, 36]}
+            alignItems="center"
+            justifyContent="center"
         >
-            <Heading size="lg">Marcus Orciuch</Heading>
+            <Text>
+                Copyright &copy; 2021 Marcus Orciuch. All rights reserved.
+            </Text>
         </Stack>
     )
 }

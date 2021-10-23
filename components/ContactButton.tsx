@@ -13,6 +13,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Stack,
+    Text,
     useDisclosure,
     useToast,
 } from '@chakra-ui/react'
@@ -135,17 +136,22 @@ const ContactButton = () => {
                     <ModalCloseButton />
                     <ModalBody pb="5">
                         {data != '' && (
-                            <Box
-                                onClick={handleInfoClick}
-                                cursor="pointer"
-                                alignItems="center"
-                                justifyContent="center"
-                                p="6"
-                                borderWidth="1px"
-                                borderRadius="lg"
-                            >
-                                {data}
-                            </Box>
+                            <>
+                                <Box
+                                    onClick={handleInfoClick}
+                                    cursor="pointer"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    p="6"
+                                    borderWidth="1px"
+                                    borderRadius="lg"
+                                >
+                                    {data}
+                                    <Text fontSize="sm" fontWeight="200">
+                                        Click to copy
+                                    </Text>
+                                </Box>
+                            </>
                         )}
                         {loading && (
                             <Stack alignItems="center" justifyContent="center">

@@ -3,6 +3,7 @@ import { Box, useColorModeValue, Image } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import GhostContentAPI from '@tryghost/content-api'
 import { FaSpinner } from 'react-icons/fa'
+import { BeatLoader } from 'react-spinners'
 
 interface IBlogArticle {
     uuid: string
@@ -23,11 +24,12 @@ const BlogArticle = (p: IBlogArticle) => {
     return (
         <Box
             className="hov-scale-min"
-            width={175}
-            p={15}
+            p="6"
+            maxW="md"
+            borderWidth="1px"
+            borderRadius="lg"
             mr={25}
-            sx={{ borderRadius: 20, cursor: 'pointer' }}
-            backgroundColor="#171717"
+            cursor="pointer"
             onClick={() => {
                 window.open(p.url)
             }}
@@ -81,7 +83,6 @@ const Blog = () => {
         api.posts
             .browse({ limit: 3, include: ['tags', 'authors'] })
             .then((posts: any) => {
-                console.log(posts)
                 let articles: IBlogArticle[] = (posts as Array<any>).map(
                     (p) => {
                         return {
@@ -100,17 +101,23 @@ const Blog = () => {
                         }
                     }
                 )
-                setData(articles)
+                setData(articles.splice(0, 3))
                 setIsLoading(false)
             })
             .catch((err) => {
+                console.group(err)
                 setError(err.message)
             })
     }
 
     let content
 
-    if (isLoading) content = <FaSpinner className="icon-spin" color="white" />
+    if (isLoading)
+        content = (
+            <Stack alignItems="center" justifyContent="center">
+                <BeatLoader size={8} color="white" />
+            </Stack>
+        )
     if (error != '')
         content = <Text>An error occured retrieving blog posts: {error}</Text>
 
