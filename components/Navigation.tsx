@@ -123,6 +123,7 @@ const Navigation = () => {
                 boxShadow={`0px 20px 50px 50px ${bg}`}
                 opacity={isSticky ? 1 : 0}
                 transform={isSticky ? 'translateY(0px)' : 'translateY(-20px)'}
+                pointerEvents={isSticky ? 'unset' : 'none'}
                 transition="all 0.3s"
                 fontWeight="400"
                 as="nav"
