@@ -37,7 +37,7 @@ const Hero = () => {
         <Stack id="#" height="65vh" alignItems="center" textAlign="center">
             <Stack px={[2, 10, 20, 50]}>
                 <SlideFade in={animIn}>
-                    <HStack justifyContent="center" mt="14">
+                    <HStack justifyContent="center" mt="14" pb="2">
                         {smIcons.map((IconComponent, i) => (
                             <div key={i}>
                                 <IconComponent
