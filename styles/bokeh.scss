@@ -19,7 +19,7 @@ $amount: 20;
     height: $particleSize;
     border-radius: $particleSize;
     backface-visibility: hidden;
-    position: fixed;
+    position: absolute;
     z-index: -5;
     animation-name: move;
     animation-duration: $animationDuration;

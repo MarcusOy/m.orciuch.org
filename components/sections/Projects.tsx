@@ -35,6 +35,7 @@ const Projects = () => {
                 <Button
                     colorScheme="blackAlpha"
                     color="white"
+                    onClick={() => window.open('https://orciu.ch/g', '_blank')}
                     leftIcon={<FaGithub />}
                 >
                     Github

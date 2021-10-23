@@ -1,12 +1,6 @@
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogCloseButton,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
+    Box,
     Button,
     Menu,
     MenuButton,
@@ -18,14 +12,40 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    Stack,
     useDisclosure,
+    useToast,
 } from '@chakra-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import React, { createRef, useState } from 'react'
+import { BeatLoader } from 'react-spinners'
 
 const ContactButton = () => {
     let [wantPhoneNumber, setWantPhoneNumber] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [data, setData] = useState<string>('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string>('')
+    const toast = useToast()
+
+    const reset = () => {
+        setData('')
+        setLoading(false)
+        setError('')
+        onClose()
+    }
+
+    const handleInfoClick = () => {
+        navigator.clipboard.writeText(data).then(() => {
+            toast({
+                title: 'Info copied',
+                description: 'Info copied to clipboard',
+                status: 'success',
+                duration: 3000,
+            })
+        })
+    }
 
     const recaptchaRef = createRef<ReCAPTCHA>()
     const onReCAPTCHAChange = (captchaCode: string | null) => {
@@ -33,7 +53,25 @@ const ContactButton = () => {
             return
         }
 
-        alert(`captcha triggered`)
+        setLoading(true)
+        fetch('/api/info', {
+            method: 'POST',
+            body: JSON.stringify({
+                type: wantPhoneNumber ? 'phone' : 'email',
+                captcha: captchaCode,
+            }),
+        })
+            .then((d) => {
+                d.text().then((t) => {
+                    setLoading(false)
+                    setData(t)
+                })
+            })
+            .catch((e) => {
+                setError(e)
+            })
+
+        // alert(`captcha triggered`)
         recaptchaRef!.current!.reset()
     }
 
@@ -90,48 +128,44 @@ const ContactButton = () => {
                 </MenuItem>
             </MenuList>
 
-            <AlertDialog
-                motionPreset="slideInBottom"
-                onClose={onClose}
-                isOpen={isOpen}
-                leastDestructiveRef={undefined}
-                isCentered
-            >
-                <AlertDialogOverlay />
-
-                <AlertDialogContent>
-                    <AlertDialogHeader>Discard Changes?</AlertDialogHeader>
-                    <AlertDialogCloseButton />
-                    <AlertDialogBody>
-                        Are you sure you want to discard all of your notes? 44
-                        words will be deleted.
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                        <Button onClick={onClose}>No</Button>
-                        <Button colorScheme="red" ml={3}>
-                            Yes
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-
-            {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <Modal isOpen={isOpen} onClose={reset} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>{title}</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
-                         <ReCAPTCHA
-                            ref={recaptchaRef}
-                            size="invisible"
-                            sitekey={
-                                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
-                            }
-                            onChange={onReCAPTCHAChange}
-                        /> 
+                    <ModalBody pb="5">
+                        {data != '' && (
+                            <Box
+                                onClick={handleInfoClick}
+                                cursor="pointer"
+                                alignItems="center"
+                                justifyContent="center"
+                                p="6"
+                                borderWidth="1px"
+                                borderRadius="lg"
+                            >
+                                {data}
+                            </Box>
+                        )}
+                        {loading && (
+                            <Stack alignItems="center" justifyContent="center">
+                                <BeatLoader size={8} color="white" />
+                            </Stack>
+                        )}
+                        <Box hidden={data != '' || loading || error != ''}>
+                            <ReCAPTCHA
+                                ref={recaptchaRef}
+                                size="normal"
+                                theme="dark"
+                                sitekey={
+                                    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
+                                }
+                                onChange={onReCAPTCHAChange}
+                            />
+                        </Box>
                     </ModalBody>
                 </ModalContent>
-            </Modal> */}
+            </Modal>
         </Menu>
     )
 }

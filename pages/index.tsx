@@ -27,12 +27,12 @@ const Home: NextPage = () => {
             <BokehBackground />
             <Stack>
                 <Navigation />
-                <Stack>
+                <Stack className="content">
                     <Hero />
                     <About />
                     <Projects />
-                    <Blog />
                     <BokehBackground />
+                    <Blog />
                     <Contact />
                     <Footer />
                 </Stack>

@@ -1,5 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import fs from 'fs'
+import path from 'path'
+import info from '../../data/info'
 
 export default async function handler(
     req: NextApiRequest,
@@ -8,7 +11,7 @@ export default async function handler(
     const { body, method } = req
 
     // Extract the email and captcha code from the request body
-    const { type, captcha } = body
+    const { type, captcha } = JSON.parse(body)
 
     if (method === 'POST') {
         // If email or captcha are missing return an error
@@ -34,20 +37,22 @@ export default async function handler(
             const captchaValidation = await response.json()
 
             if (captchaValidation.success) {
-                let info
-                switch (type) {
-                    case 'email':
-                        info = 'marcus@oricuch.org'
-                        break
-                    case 'phone':
-                        info = '(219) 671-2649'
-                        break
-                    default:
-                        info = 'Nothing here :/'
+                if (type == 'resume') {
+                    const filePath = path.resolve('.', 'resume.pdf')
+                    const buffer = fs.readFileSync(filePath)
+                    res.setHeader('Content-Type', 'application/pdf')
+                    res.setHeader(
+                        'Content-disposition',
+                        'attachment; filename=Orciuch_Marcus_Resume.pdf'
+                    )
+                    res.send(buffer)
+                    return
                 }
 
+                let response = info[type]
+
                 // Return 200 if everything is successful
-                return res.status(200).send(info)
+                return res.status(200).send(response ?? 'Nothing here :/')
             }
 
             return res.status(422).json({

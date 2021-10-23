@@ -7,7 +7,6 @@ const Footer = () => {
 
     return (
         <Stack
-            id="Blog"
             pt={10}
             minHeight="25vh"
             bg="#2196F2"

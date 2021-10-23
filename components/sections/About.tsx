@@ -12,6 +12,7 @@ import { ThemeTypings } from '@chakra-ui/styled-system'
 import { Tag } from '@chakra-ui/tag'
 import Image from 'next/image'
 import React from 'react'
+import ResumeButton from '../ResumeButton'
 
 const skills = [
     {
@@ -120,7 +121,7 @@ const About = () => {
             minHeight="50vh"
             background={bg}
             alignItems="center"
-            zIndex={1}
+            zIndex={10}
         >
             <HStack
                 mt={10}
@@ -155,18 +156,7 @@ const About = () => {
                         maxW="32"
                         maxH="32"
                     /> */}
-                    <Button
-                        onClick={() =>
-                            window &&
-                            window
-                                .open('/Orciuch_Marcus_Resume.pdf', '_blank')!
-                                .focus()
-                        }
-                        width="100%"
-                        variant="outline"
-                    >
-                        Resume
-                    </Button>
+                    <ResumeButton />
                 </Stack>
                 <Stack>
                     <Text>

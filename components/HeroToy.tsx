@@ -30,28 +30,15 @@ const Toy = () => {
     const primitive = useRef()
 
     // Sets rotation based on mouse location
-    // (or device orientation if mobile)
     const mouse = useLerpedMouse()
-    const [accel, setAccel] = useState([0, 0, 0])
     useFrame((_, d) => {
         let p = primitive.current as any
         // Rotate based on mouse along x and y
-        if (accel[0] == 0 && accel[1] == 0 && accel[2] == 0) {
-            p.rotation.y = (mouse.current.x * Math.PI) / 7 - 0.5
-            p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
-        } else {
-            p.rotation.y = (accel[0] * Math.PI) / 7 - 0.5
-            p.rotation.x = (accel[1] * Math.PI) / 50 + 0.2
-        }
+        p.rotation.y = (mouse.current.x * Math.PI) / 7 - 0.5
+        p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
+
         // Auto rotate along z
         p.rotation.z += 0.1 * d
-    })
-
-    // Get device orientation (mobile rotations)
-    useEffect(() => {
-        window.addEventListener('deviceorientation', (e) => {
-            setAccel([e.alpha ?? 0, e.beta ?? 0, e.gamma ?? 0])
-        })
     })
 
     return gltf ? (
@@ -75,8 +62,8 @@ const Lights = () => {
         l.rotation.y = Math.PI * 0.25 - (mouse.current.y * Math.PI) / 6
     })
 
-    const colorDiff = useColorModeValue(2, 0)
-    console.log(colorDiff)
+    // const colorDiff = useColorModeValue(2, 0)
+    const colorDiff = 2
 
     return (
         <>
@@ -99,6 +86,7 @@ const Lights = () => {
             <group ref={lights}>
                 <rectAreaLight
                     intensity={colorDiff}
+                    color="black"
                     position={[4.5, 0, -3]}
                     width={10}
                     height={10}
@@ -106,6 +94,7 @@ const Lights = () => {
                 />
                 <rectAreaLight
                     intensity={colorDiff}
+                    color="black"
                     position={[-10, 2, -10]}
                     width={15}
                     height={15}
