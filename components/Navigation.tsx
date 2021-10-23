@@ -11,6 +11,7 @@ import {
     DrawerBody,
     DrawerCloseButton,
     DrawerContent,
+    DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
     Heading,
@@ -18,16 +19,20 @@ import {
     IconButton,
     Link,
     useColorMode,
+    useColorModeValue,
     useDisclosure,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ContactButton from './ContactButton'
 
 const Navigation = () => {
     const { colorMode, toggleColorMode } = useColorMode()
+    const bg = useColorModeValue('white', '#1A202C')
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef(null)
+
+    const [scrollY, setScrollY] = useState(0)
 
     let links = (
         <>
@@ -38,12 +43,18 @@ const Navigation = () => {
                 Blog
                 <ExternalLinkIcon mx="2px" />
             </Link>
-            <ContactButton />
         </>
     )
 
-    return (
-        <HStack fontWeight="400" as="nav" zIndex={100} p={5}>
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            setScrollY(window.scrollY)
+        })
+    })
+
+    let isSticky = scrollY >= 225
+    let nav = (
+        <>
             <Heading fontWeight="800" size="md">
                 Marcus Orciuch
             </Heading>
@@ -57,6 +68,7 @@ const Navigation = () => {
             />
             <HStack display={['none', 'none', 'block']} spacing="5">
                 {links}
+                <ContactButton />
             </HStack>
             <IconButton
                 onClick={toggleColorMode}
@@ -84,15 +96,42 @@ const Navigation = () => {
                         </HStack>
                     </DrawerBody>
 
-                    {/* <DrawerFooter>
-                        <Button variant="outline" mr={3} onClick={onClose}>
-                            Cancel
-                        </Button>
-                        <Button colorScheme="blue">Save</Button>
-                    </DrawerFooter> */}
+                    <DrawerFooter>
+                        <ContactButton />
+                    </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-        </HStack>
+        </>
+    )
+
+    return (
+        <>
+            {/* Normal nav bar */}
+            <HStack
+                opacity={isSticky ? 0 : 1}
+                fontWeight="400"
+                as="nav"
+                zIndex={100}
+                p={5}
+            >
+                {nav}
+            </HStack>
+            {/* Stick nav bar (when scrolling) */}
+            <HStack
+                position="fixed"
+                bg={bg}
+                boxShadow={`0px 20px 50px 50px ${bg}`}
+                opacity={isSticky ? 1 : 0}
+                transform={isSticky ? 'translateY(0px)' : 'translateY(-20px)'}
+                transition="all 0.3s"
+                fontWeight="400"
+                as="nav"
+                zIndex={100}
+                p={5}
+            >
+                {nav}
+            </HStack>
+        </>
     )
 }
 
