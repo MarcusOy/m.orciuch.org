@@ -38,7 +38,7 @@ export default async function handler(
 
             if (captchaValidation.success) {
                 if (type == 'resume') {
-                    const filePath = path.resolve('.', 'resume.pdf')
+                    const filePath = path.resolve(process.cwd(), 'resume.pdf')
                     const buffer = fs.readFileSync(filePath)
                     res.setHeader('Content-Type', 'application/pdf')
                     res.setHeader(

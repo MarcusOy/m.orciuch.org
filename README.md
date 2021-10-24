@@ -19,6 +19,15 @@ Then, run the site in development mode:
 yarn dev
 ```
 
+Lastly, make a `.env.local` in the root directory and add the following:
+```env
+# Add the public site key here
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=<captcha site key>
+# Add the secret key here
+RECAPTCHA_SECRET_KEY=<captcha secret key>
+```
+You can obtain these keys [here](https://www.google.com/recaptcha/admin/site/).
+
 Recommended `.vscode/launch.json`:
 ```json
 {

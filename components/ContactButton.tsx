@@ -116,7 +116,7 @@ const ContactButton = () => {
             </MenuButton>
             <MenuList>
                 <MenuItem onClick={handleEmailRequest}>
-                    Send me an Email
+                    Send me an email
                 </MenuItem>
                 <MenuItem onClick={handlePhoneRequest}>
                     Shoot me a text

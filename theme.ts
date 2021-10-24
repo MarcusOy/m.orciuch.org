@@ -1,8 +1,11 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react'
 
 const config: ThemeConfig | any = {
-    initialColorMode: 'dark',
-    useSystemColorMode: false,
+    config: {
+        initialColorMode: 'dark',
+        useSystemColorMode: false,
+        cssVarPrefix: '🗿',
+    },
     fonts: {
         heading: 'Gotham',
         body: 'Gotham',
