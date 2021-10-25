@@ -3,6 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs'
 import path from 'path'
 import info from '../../data/info'
+import axios from 'axios'
+import { Stream } from 'stream'
 
 export default async function handler(
     req: NextApiRequest,
@@ -38,8 +40,9 @@ export default async function handler(
 
             if (captchaValidation.success) {
                 if (type == 'resume') {
-                    const filePath = path.resolve(process.cwd(), 'resume.pdf')
-                    const buffer = fs.readFileSync(filePath)
+                    await downloadResume()
+                    const tempPath = path.join(process.cwd(), 'temp.pdf')
+                    let buffer = fs.readFileSync(tempPath)
                     res.setHeader('Content-Type', 'application/pdf')
                     res.setHeader(
                         'Content-disposition',
@@ -67,4 +70,36 @@ export default async function handler(
     // POST
     return res.status(404).send('Invalid REST verb.')
     // res.status(200).send('marcus@orciuch.org')
+}
+
+async function downloadResume() {
+    const url = info['resume']
+    const tempPath = path.join(process.cwd(), 'temp.pdf')
+    const writer = fs.createWriteStream(tempPath)
+
+    // Gets file from url
+    return axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+    }).then((res) => {
+        // Returns promise of file being written to disk
+        return new Promise((resolve, reject) => {
+            ;(res.data as Stream).pipe(writer)
+            let error: Error
+
+            // Reject promise on error
+            writer.on('error', (err) => {
+                error = err
+                writer.close()
+                reject(err)
+            })
+            // Resolve promise on stream close
+            writer.on('close', () => {
+                if (!error) {
+                    resolve(true)
+                }
+            })
+        })
+    })
 }

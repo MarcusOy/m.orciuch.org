@@ -46,17 +46,33 @@ const ResumeButton = () => {
                 type: 'resume',
                 captcha: captchaCode,
             }),
-        }).then((res) => {
-            setLoading(false)
-            downloadFile(res)
-            onClose()
-            toast({
-                title: 'Resume downloading...',
-                description: 'Your browser is now downloading my resume',
-                status: 'success',
-                duration: 3000,
-            })
         })
+            .then((res) => {
+                setLoading(false)
+                onClose()
+                if (res.status == 200) {
+                    downloadFile(res)
+                    toast({
+                        title: 'Resume downloading...',
+                        description:
+                            'Your browser is now downloading my resume',
+                        status: 'success',
+                        duration: 3000,
+                    })
+                    return
+                }
+                throw new Error('Something bad happened')
+            })
+            .catch(() => {
+                setLoading(false)
+                onClose()
+                toast({
+                    title: 'Something went wrong',
+                    description: 'Cannot retrieve my resume at this time',
+                    status: 'error',
+                    duration: 3000,
+                })
+            })
 
         // alert(`captcha triggered`)
         recaptchaRef!.current!.reset()
