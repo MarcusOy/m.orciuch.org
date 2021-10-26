@@ -1,3 +1,4 @@
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 import {
     Box,
     Heading,
@@ -8,6 +9,8 @@ import {
     WrapItem,
 } from '@chakra-ui/layout'
 import {
+    Alert,
+    AlertIcon,
     Button,
     Image as Img,
     SimpleGrid,
@@ -16,6 +19,7 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Tooltip,
     useColorModeValue,
 } from '@chakra-ui/react'
 import { ThemeTypings } from '@chakra-ui/styled-system'
@@ -132,6 +136,10 @@ const Locorum = () => {
                 </Text>
                 Locorum - Be a better citizen
             </Heading>
+            <Alert status="warning">
+                <AlertIcon />
+                Project temporarily suspended
+            </Alert>
             <Tabs defaultIndex={2}>
                 <TabPanels>
                     <TabPanel>

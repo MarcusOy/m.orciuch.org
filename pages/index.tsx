@@ -2,7 +2,7 @@ import { Heading, Stack, Text } from '@chakra-ui/layout'
 import { ColorModeScript } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
 import BokehBackground from '../components/BokehBackground'
 import Navigation from '../components/Navigation'
 import About from '../components/sections/About'
@@ -11,9 +11,14 @@ import Contact from '../components/sections/Contact'
 import Footer from '../components/sections/Footer'
 import Hero from '../components/sections/Hero'
 import Projects from '../components/sections/Projects'
-import theme from '../theme'
+import ReactGA from 'react-ga'
 
 const Home: NextPage = () => {
+    useEffect(() => {
+        ReactGA.initialize('G-VGW6SY3RRL')
+        ReactGA.pageview(window.location.pathname + window.location.search)
+    }, [])
+
     return (
         <>
             <Head>
@@ -31,7 +36,6 @@ const Home: NextPage = () => {
                     <Hero />
                     <About />
                     <Projects />
-                    <BokehBackground />
                     <Blog />
                     <Contact />
                     <Footer />

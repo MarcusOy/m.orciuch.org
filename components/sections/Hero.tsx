@@ -26,87 +26,78 @@ const smLinks = [
 ]
 
 const Hero = () => {
-    const [animIn, setAnimIn] = useState(false)
-    useEffect(() => {
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => setAnimIn(true), 500)
-        })
-    })
-
     return (
         <Stack id="#" height="65vh" alignItems="center" textAlign="center">
             <Stack px={[2, 10, 20, 50]}>
-                <SlideFade in={animIn}>
-                    <HStack justifyContent="center" mt="14" pb="2">
-                        {smIcons.map((IconComponent, i) => (
-                            <div key={i}>
-                                <IconComponent
-                                    className="feature-icon hov-scale-min"
-                                    style={{
-                                        fontSize: 20,
-                                        marginRight: 30,
-                                        cursor: 'pointer',
-                                    }}
-                                    onClick={() => {
-                                        window.open(smLinks[i])
-                                    }}
-                                />
-                            </div>
-                        ))}
-                    </HStack>
-                    {/* Desktop friendly version */}
-                    <Box display={['none', 'none', 'block', 'block']}>
-                        <Heading size="2xl">
-                            👋 Hi, I'm
-                            <span style={{ color: '#2196F2' }}>
-                                {' '}
-                                Marcus Orciuch
+                <HStack justifyContent="center" mt="14" pb="2">
+                    {smIcons.map((IconComponent, i) => (
+                        <div key={i}>
+                            <IconComponent
+                                className="feature-icon hov-scale-min"
+                                style={{
+                                    fontSize: 20,
+                                    marginRight: 30,
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => {
+                                    window.open(smLinks[i])
+                                }}
+                            />
+                        </div>
+                    ))}
+                </HStack>
+                {/* Desktop friendly version */}
+                <Box display={['none', 'none', 'block', 'block']}>
+                    <Heading size="2xl">
+                        👋 Hi, I'm
+                        <span style={{ color: '#2196F2' }}>
+                            {' '}
+                            Marcus Orciuch
+                        </span>
+                        ,
+                    </Heading>
+                    <Heading size="2xl">
+                        a{' '}
+                        <TextLoop
+                            delay={1000}
+                            springConfig={{ stiffness: 180, damping: 8 }}
+                        >
+                            <span>Software Engineer</span>
+                            <span>Videographer</span>
+                            <span>Designer</span>
+                            <span>Cybersecurity Student</span>
+                        </TextLoop>
+                        .
+                    </Heading>
+                </Box>
+                {/* Mobile friendly version */}
+                <Box display={['block', 'block', 'none', 'none']}>
+                    <Heading size="2xl">
+                        👋 Hi, I'm
+                        <span style={{ color: '#2196F2' }}>
+                            {' '}
+                            Marcus Orciuch
+                        </span>
+                        ,
+                    </Heading>
+                    <Heading size="2xl">
+                        <TextLoop
+                            delay={1000}
+                            springConfig={{ stiffness: 180, damping: 8 }}
+                        >
+                            <span>
+                                a Software
+                                <br /> Engineer.
                             </span>
-                            ,
-                        </Heading>
-                        <Heading size="2xl">
-                            a{' '}
-                            <TextLoop
-                                delay={1000}
-                                springConfig={{ stiffness: 180, damping: 8 }}
-                            >
-                                <span>Software Engineer</span>
-                                <span>Videographer</span>
-                                <span>Designer</span>
-                                <span>Cybersecurity Student</span>
-                            </TextLoop>
-                            .
-                        </Heading>
-                    </Box>
-                    {/* Mobile friendly version */}
-                    <Box display={['block', 'block', 'none', 'none']}>
-                        <Heading size="2xl">
-                            👋 Hi, I'm
-                            <span style={{ color: '#2196F2' }}>
-                                {' '}
-                                Marcus Orciuch
+                            <span>a Videographer.</span>
+                            <span>a Designer.</span>
+                            <span>
+                                a Cybersecurity
+                                <br /> Student.
                             </span>
-                            ,
-                        </Heading>
-                        <Heading size="2xl">
-                            <TextLoop
-                                delay={1000}
-                                springConfig={{ stiffness: 180, damping: 8 }}
-                            >
-                                <span>
-                                    a Software
-                                    <br /> Engineer.
-                                </span>
-                                <span>a Videographer.</span>
-                                <span>a Designer.</span>
-                                <span>
-                                    a Cybersecurity
-                                    <br /> Student.
-                                </span>
-                            </TextLoop>
-                        </Heading>
-                    </Box>
-                </SlideFade>
+                        </TextLoop>
+                    </Heading>
+                </Box>
             </Stack>
             {/* 3D Model */}
             <HeroToy />

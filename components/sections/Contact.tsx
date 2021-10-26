@@ -4,15 +4,13 @@ import React from 'react'
 import ContactButton from '../ContactButton'
 
 const Contact = () => {
-    // const bg = useColorModeValue('white', '#1A202C')
-
     return (
         <Stack
             id="Blog"
             pt={48}
             minHeight="50vh"
             // zIndex={1}
-            px={[5, 5, 36, 36]}
+            px={[2, 10, 10, 20]}
         >
             <Heading size="lg">
                 <Text fontSize="sm" fontWeight={200}>

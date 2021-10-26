@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/layout'
+import { Link, Stack } from '@chakra-ui/layout'
 import { Button, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
@@ -15,10 +15,17 @@ const Projects = () => {
             px={[2, 10, 10, 20]}
             minHeight="75vh"
             background={bg}
-            alignItems="center"
             zIndex={1}
             style={{ marginTop: 0 }}
         >
+            <Link href="">
+                <Heading size="lg">
+                    <Text fontSize="sm" fontWeight={200}>
+                        Hot off the press
+                    </Text>
+                    Personal Projects
+                </Heading>
+            </Link>
             <Audex />
             <Locorum />
             <Stack

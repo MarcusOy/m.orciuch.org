@@ -24,9 +24,10 @@ import {
     useToast,
 } from '@chakra-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import React, { createRef, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import { downloadFile } from '../helpers/DownloadHelper'
+import ReactGA from 'react-ga'
 
 const ResumeButton = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -59,6 +60,10 @@ const ResumeButton = () => {
                         status: 'success',
                         duration: 3000,
                     })
+                    ReactGA.event({
+                        category: 'Info Request',
+                        action: "Marcus's Resume",
+                    })
                     return
                 }
                 throw new Error('Something bad happened')
@@ -74,25 +79,17 @@ const ResumeButton = () => {
                 })
             })
 
-        // alert(`captcha triggered`)
         recaptchaRef!.current!.reset()
     }
 
     return (
         <>
-            {/* <MenuButton
-                as={Button}
-                className="smart-shadow"
-                boxShadow="0px 16px 24px -2px rgba(33, 150, 242, 0.4)"
-                maxWidth="36"
-                // onClick={() => (window.location.hash = 'Contact')}
+            <Button
                 colorScheme="blue"
-                variant="solid"
-                rightIcon={<ChevronDownIcon />}
+                onClick={onOpen}
+                width="100%"
+                variant="outline"
             >
-                Contact
-            </MenuButton> */}
-            <Button onClick={onOpen} width="100%" variant="outline">
                 Resume
             </Button>
 

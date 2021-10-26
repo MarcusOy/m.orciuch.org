@@ -116,46 +116,50 @@ const About = () => {
     return (
         <Stack
             id="About"
-            // px={[2, 10, 24, 48]}a
+            px={[2, 10, 10, 20]}
+            pb={5}
             boxShadow={`0px -50px 50px 35px ${bg}`}
             minHeight="50vh"
             background={bg}
-            alignItems="center"
             zIndex={10}
+            alignItems="center"
         >
+            <Heading width="100%" size="lg">
+                <Text fontSize="sm" fontWeight={200}>
+                    In a nutshell
+                </Text>
+                About me
+            </Heading>
             <HStack
                 mt={10}
-                flexDir={['column', 'column', 'row', 'row']}
+                flexDir={['column-reverse', 'column-reverse', 'row', 'row']}
                 maxW="2xl"
                 padding={[5, 5, 0, 0]}
                 spacing={[0, 0, 10, 10]}
             >
                 <Stack
-                    // width={['100%', null, null, null]}
+                    pt="5"
                     alignItems="center"
+                    width={['100%', '100%', 'unset', 'unset']}
                 >
                     <Stack
                         flexDir={['row', 'row', 'column']}
                         alignItems="center"
-                        // width={['100%', '100%', null, null]}
+                        justifyContent="center"
+                        width={['100%', '100%', 'unset', 'unset']}
                         p="6"
                         borderWidth="1px"
                         borderRadius="lg"
                     >
-                        <Heading color="#2196F2">{yoe}+</Heading>
+                        <Heading pr={[5, 5, 0]} color="#2196F2">
+                            {yoe}+
+                        </Heading>
                         <Text size="sm">
                             years of <br />
                             professional
                             <br /> experience
                         </Text>
                     </Stack>
-
-                    {/* <Img
-                        src="/img/pfp.jpg"
-                        borderRadius="32"
-                        maxW="32"
-                        maxH="32"
-                    /> */}
                     <ResumeButton />
                 </Stack>
                 <Stack>
@@ -171,7 +175,8 @@ const About = () => {
                                         className="hov-scale-min"
                                         alignItems="center"
                                         justifyContent="center"
-                                        width="110px"
+                                        // width="110px"
+                                        width={['140px', '110px']}
                                         height="140px"
                                         p="6"
                                         borderWidth="1px"

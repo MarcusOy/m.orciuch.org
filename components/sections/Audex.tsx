@@ -1,5 +1,6 @@
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { Heading, HStack, Stack, Text, Wrap } from '@chakra-ui/layout'
-import { useColorModeValue } from '@chakra-ui/react'
+import { Button, useColorModeValue } from '@chakra-ui/react'
 import { ThemeTypings } from '@chakra-ui/styled-system'
 import { Tag } from '@chakra-ui/tag'
 import React from 'react'
@@ -105,6 +106,19 @@ const Audex = () => {
                         )
                     })}
                 </Wrap>
+                <Button
+                    onClick={() => {
+                        window.open(
+                            'https://github.com/MarcusOy/Audex',
+                            '_blank'
+                        )
+                    }}
+                    rightIcon={<ArrowForwardIcon />}
+                    colorScheme="teal"
+                    variant="outline"
+                >
+                    View project
+                </Button>
             </Stack>
         </HStack>
     )

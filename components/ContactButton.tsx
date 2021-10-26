@@ -18,8 +18,9 @@ import {
     useToast,
 } from '@chakra-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import React, { createRef, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { BeatLoader } from 'react-spinners'
+import ReactGA from 'react-ga'
 
 const ContactButton = () => {
     let [wantPhoneNumber, setWantPhoneNumber] = useState(false)
@@ -29,6 +30,10 @@ const ContactButton = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string>('')
     const toast = useToast()
+
+    let title = wantPhoneNumber
+        ? "Marcus's Phone Number"
+        : "Marcus's Email Address"
 
     const reset = () => {
         setData('')
@@ -66,6 +71,10 @@ const ContactButton = () => {
                 d.text().then((t) => {
                     setLoading(false)
                     setData(t)
+                    ReactGA.event({
+                        category: 'Info Request',
+                        action: title,
+                    })
                 })
             })
             .catch((e) => {
@@ -88,17 +97,21 @@ const ContactButton = () => {
 
     const handleIGRequest = () => {
         window.open('https://www.instagram.com/m.orciuch/', '_blank')
+        ReactGA.event({
+            category: 'Info Request',
+            action: 'Instagram DM',
+        })
     }
     const handleLIRequest = () => {
         window.open(
             'https://www.linkedin.com/in/marcus-orciuch-507215132/',
             '_blank'
         )
+        ReactGA.event({
+            category: 'Info Request',
+            action: 'LinkedIn Profile',
+        })
     }
-
-    let title = wantPhoneNumber
-        ? "Marcus's Phone Number"
-        : "Marcus's Email Address"
 
     return (
         <Menu>
