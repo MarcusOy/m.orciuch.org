@@ -133,10 +133,10 @@ const Blog = () => {
             minHeight="50vh"
             background={bg}
             zIndex={1}
-            px={[2, 10, 10, 20]}
+            px={[2, 10, 10, 36]}
             style={{ marginTop: 0 }}
         >
-            <Heading size="lg">
+            <Heading width={['100%', '100%', '2xl']} size="lg">
                 <Text fontSize="sm" fontWeight={200}>
                     From the blog
                 </Text>

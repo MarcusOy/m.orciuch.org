@@ -10,9 +10,9 @@ const Contact = () => {
             pt={48}
             minHeight="50vh"
             // zIndex={1}
-            px={[2, 10, 10, 20]}
+            px={[2, 10, 10, 36]}
         >
-            <Heading size="lg">
+            <Heading width={['100%', '100%', '2xl']} size="lg">
                 <Text fontSize="sm" fontWeight={200}>
                     Need something?
                 </Text>

@@ -116,7 +116,7 @@ const About = () => {
     return (
         <Stack
             id="About"
-            px={[2, 10, 10, 20]}
+            px={[2, 10, 10, 36]}
             pb={5}
             boxShadow={`0px -50px 50px 35px ${bg}`}
             minHeight="50vh"
@@ -124,12 +124,6 @@ const About = () => {
             zIndex={10}
             alignItems="center"
         >
-            <Heading width="100%" size="lg">
-                <Text fontSize="sm" fontWeight={200}>
-                    In a nutshell
-                </Text>
-                About me
-            </Heading>
             <HStack
                 mt={10}
                 flexDir={['column-reverse', 'column-reverse', 'row', 'row']}

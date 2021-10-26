@@ -17,15 +17,8 @@ const Projects = () => {
             background={bg}
             zIndex={1}
             style={{ marginTop: 0 }}
+            alignItems="center"
         >
-            <Link href="">
-                <Heading size="lg">
-                    <Text fontSize="sm" fontWeight={200}>
-                        Hot off the press
-                    </Text>
-                    Personal Projects
-                </Heading>
-            </Link>
             <Audex />
             <Locorum />
             <Stack
