@@ -8,7 +8,7 @@ import {
     FaDribbble,
     FaLinkedin,
 } from 'react-icons/fa'
-import { HStack, SlideFade } from '@chakra-ui/react'
+import { HStack } from '@chakra-ui/react'
 
 // Makes sure that HeroToy is not SSR-ed
 import dynamic from 'next/dynamic'
@@ -27,7 +27,12 @@ const smLinks = [
 
 const Hero = () => {
     return (
-        <Stack id="#" height="65vh" alignItems="center" textAlign="center">
+        <Stack
+            id="#"
+            height={['600px', '600px', '70vh']}
+            alignItems="center"
+            textAlign="center"
+        >
             <Stack px={[2, 10, 20, 50]}>
                 <HStack justifyContent="center" mt="14" pb="2">
                     {smIcons.map((IconComponent, i) => (
@@ -78,7 +83,7 @@ const Hero = () => {
                             {' '}
                             Marcus Orciuch
                         </span>
-                        ,
+                        , a
                     </Heading>
                     <Heading size="2xl">
                         <TextLoop
@@ -86,13 +91,13 @@ const Hero = () => {
                             springConfig={{ stiffness: 180, damping: 8 }}
                         >
                             <span>
-                                a Software
+                                Software
                                 <br /> Engineer.
                             </span>
-                            <span>a Videographer.</span>
-                            <span>a Designer.</span>
+                            <span>Videographer.</span>
+                            <span>Designer.</span>
                             <span>
-                                a Cybersecurity
+                                Cybersecurity
                                 <br /> Student.
                             </span>
                         </TextLoop>

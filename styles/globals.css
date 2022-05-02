@@ -18,6 +18,10 @@ a {
     box-sizing: border-box;
 }
 
+.content {
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
 nav {
     margin-top: 0 !important;
     margin-left: 0 !important;
