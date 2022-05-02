@@ -12,6 +12,7 @@ import Footer from '../components/sections/Footer'
 import Hero from '../components/sections/Hero'
 import Projects from '../components/sections/Projects'
 import ReactGA from 'react-ga'
+// import Script from 'next/script'
 
 const Home: NextPage = () => {
     useEffect(() => {
