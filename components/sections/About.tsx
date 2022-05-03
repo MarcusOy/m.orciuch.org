@@ -124,6 +124,12 @@ const About = () => {
             zIndex={10}
             alignItems="center"
         >
+            <Heading width="100%" size="lg">
+                <Text fontSize="sm" fontWeight={200}>
+                    In a nutshell
+                </Text>
+                About me
+            </Heading>
             <HStack
                 mt={10}
                 flexDir={['column-reverse', 'column-reverse', 'row', 'row']}

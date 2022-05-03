@@ -11,10 +11,11 @@ import {
 import { HStack } from '@chakra-ui/react'
 
 // Makes sure that HeroToy is not SSR-ed
-import dynamic from 'next/dynamic'
-const HeroToy = dynamic(() => import('../HeroToy'), {
-    ssr: false,
-})
+// import dynamic from 'next/dynamic'
+// const HeroToy = dynamic(() => import('../HeroToy'), {
+//     ssr: false,
+// })
+import HeroToy from '../HeroToy'
 
 const smIcons = [FaGithub, FaLinkedin, FaInstagram, FaYoutube, FaDribbble]
 const smLinks = [

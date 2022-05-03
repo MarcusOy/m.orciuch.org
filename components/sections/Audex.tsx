@@ -62,7 +62,6 @@ const Audex = () => {
 
     return (
         <HStack flexDir={['column', 'column', 'row']} maxW="4xl" spacing={10}>
-            <img src="https://via.placeholder.com/400x500?text=Audex+Animation+Here" />
             <Stack spacing={5}>
                 <Heading size="lg">
                     <Text fontSize="sm" fontWeight={200}>
@@ -120,6 +119,7 @@ const Audex = () => {
                     View project
                 </Button>
             </Stack>
+            <img src="https://via.placeholder.com/400x500?text=Audex+Animation+Here" />
         </HStack>
     )
 }
