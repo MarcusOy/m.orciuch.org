@@ -26,7 +26,7 @@ function useLerpedMouse() {
 }
 
 const Toy = () => {
-    const gltf = useLoader(GLTFLoader, '/3d/toy.glb')
+    const gltf = useLoader(GLTFLoader, '/3d/stadium.glb')
     const primitive = useRef()
 
     // Sets rotation based on mouse location
@@ -34,18 +34,18 @@ const Toy = () => {
     useFrame((_, d) => {
         let p = primitive.current as any
         // Rotate based on mouse along x and y
-        p.rotation.y = (mouse.current.x * Math.PI) / 7 - 0.5
-        p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
+        p.rotation.y = (mouse.current.x * Math.PI) / 50 + (Math.PI / 2)
+        // p.rotation.x = (mouse.current.y * Math.PI) / 50 + 0.2
 
         // Auto rotate along z
-        p.rotation.z += 0.1 * d
+        // p.rotation.z += 0.1 * d
     })
 
     return gltf ? (
         <primitive
             ref={primitive}
             object={gltf.scene}
-            position={[0, -2.2, 0]}
+            position={[0, -1, 0]}
             dispose={null}
             castShadow
             receiveShadow
@@ -135,21 +135,24 @@ const Lights = () => {
 // }
 
 const HeroToy = () => {
+    var canvas = 
+
     return (
         <Box position="relative" zIndex="10" h="100%" w="100%">
             <Canvas
                 // frameloop="demand"
+                
                 camera={{
-                    zoom: 100,
-                    position: [0, 0, 100],
+                    // zoom: 100,
+                    // position: [0, 0, 100],
                     // rotation: [1, 0, 0],
                 }}
             >
                 {/* <Effects /> */}
-                <Lights />
+                {/* <Lights /> */}
                 <Suspense fallback={null}>
-                    {/* <ambientLight intensity={0.1} />
-                    <directionalLight position={[10, 10, 0]} /> */}
+                    <ambientLight intensity={0.1} />
+                    <directionalLight position={[10, 10, 0]} />
                     <Toy />
                 </Suspense>
             </Canvas>
